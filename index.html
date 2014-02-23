@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dinner Planner</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="js/model/dinnerModel.js"></script>
+    <script src="js/view/sidebarView.js"></script>
+    <script src="js/view/sidebarViewController.js"></script>
+    <script src="js/view/welcomeView.js"></script>
+    <script src="js/view/welcomeViewController.js"></script>
+    <script src="js/view/dishSelectionView.js"></script>
+    <script src="js/view/dishSelectionViewController.js"></script>
+    <script src="js/view/dishListView.js"></script>
+    <script src="js/view/dishDetailsView.js"></script>
+    <script src="js/view/dishDetailsViewController.js"></script>
+    <script src="js/view/dinnerOverviewView.js"></script>
+    <script src="js/view/dinnerOverviewViewController.js"></script>
+    <script src="js/lib.js"></script>
+    <script src="js/app.js"></script>
+  </head>
+  <body>
+    <div class="topbar">
+      <h1 class="logo">Homelette</h1>
+      <p class="logo-intro">From the best chefs in the world directly in to your kitchen.</p>
+    </div>
+
+    <div id="sideView"></div>
+    <div id="mainView"></div>
+
+  <script type="text/html" id="sidebarViewTmpl">
+    <div id="selectionView" class="sidebar">
+      <div class="selectionHeader">
+        My dinner
+      </div>
+      <div class="selectionPeople">
+        People: <span id="sidebarNumberOfGuests"></span>
+        <button id="sidebarPlusButton"><i class="glyphicon glyphicon-plus"></i></button>
+        <button id="sidebarMinusButton"><i class="glyphicon glyphicon-minus"></i></button>
+      </div>
+
+      <div id="selectedDishesHeader">
+        <span>Dish</span>
+        <span class="selectedDishCostSpan">Cost</span>
+      </div>
+      <div id="selectedDishes">
+      </div>
+
+      <hr>
+
+      <div class="selectedDishFooter">
+        <div>Total Price:
+        <span id="selectedDishesFinalPrice"></span>
+        </div>
+        <button type="button" class="confirmDinnerButton">
+          Confirm Dinner
+        </button>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="selectedDishesTmpl">
+    <% for (var i = 0; i < dishes.length; i++) { %>
+    <div class="selectedDishElement" data-id="<%=dishes[i].id%>">
+      <span class="selectedDishElementName"><!--<%=dishes[i].type%>: --><%=dishes[i].name%></span>
+      <span class="selectedDishElementPrice"><%=dishes[i].price%></span>
+      <div style="font-style: italic">
+      <%=dishes[i].type%> <button type="button" data-id="<%=dishes[i].id%>" class="dishRemoveButton"><i class="glyphicon glyphicon-remove"></i></button>
+      </div>
+    </div>
+    <% } %>
+    <% if (pending) { %>
+    <div class="selectedDishElement pending" data-id="<%=pending.id%>">
+      <div style="font-weight: bold">Pending:</div>
+      <span class="selectedDishElementName"><%=pending.name%></span>
+      <span class="selectedDishElementPrice"></span>
+    </div>
+    <% } %>
+  </script>
+
+  <script type="text/html" id="dishSelectionViewTmpl">
+    <div class="content">
+      <div class="dishListControl">
+        <span class="dishListControlText">Select dish</span>
+        <hr>
+        <form id="dishListSearchForm">
+          <input type="text" id="dishListSearchFormInput" class="search" placeholder="Enter key words...">
+          <input type="submit" class="search-button" value="Search">
+        </form>
+        <form id="dishListTypeForm">
+          <select id="dishListTypeSelect">
+            <option value="starter">Starter</option>
+            <option value="main dish">Main dish</option>
+            <option value="dessert">Dessert</option>
+          </select>
+        </form>
+      </div>
+
+      <div id="dishListView">
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="dishListViewTmpl">
+    <div class="dishList">
+      <% for (var i = 0; i < dishes.length; i++) { %>
+      <div class="dishListViewElement">
+        <div class="dishListViewElementImg">
+          <img src="images/<%=dishes[i].image%>"/>
+        </div>
+        <div class="dishListViewElementText">
+          <a class="dishListViewElementLink" href="<%=dishes[i].id%>"><%=dishes[i].name%></a>
+        </div>
+        <div class="dishListViewElementDescription">
+          <%=dishes[i].description%>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </script>
+
+  <script type="text/html" id="dishDetailsViewTmpl">
+    <div class="content">
+      <div class="dishDetails">
+        <div class="dishDetailsHeader"><%= name %></div>
+        <div class="dishDetailsImg">
+          <img src="images/<%=image%>"/>
+        </div>
+        <div class="dishDetailsDescription">
+          <%=description%>
+        </div>
+        <button type="button" class="dishDetailsBackButton">
+          Back to Select Dish
+        </button>
+      </div>
+
+      <div class="dishDetailsIngredients">
+        <div class="dishDetailsIngredientsHeader">
+        Ingredients for <span class="dishDetailsIngredientsPeople"></span> people
+        </div>
+        <hr>
+        <table>
+          <tbody>
+            <tr>
+              <th>Quantity</th>
+              <th>Ingredient</th>
+              <th>Currency</th>
+              <th>Price</th>
+            </tr>
+            <% for (var i = 0; i < ingredients.length; i++) { %>
+              <tr>
+                <td><span data-quantity="<%=ingredients[i].quantity%>"><%=ingredients[i].quantity%></span> <%=ingredients[i].unit%></td>
+                <td><%=ingredients[i].name%></td>
+                <td>SEK</td>
+                <td><span data-price="<%=ingredients[i].price%>"><%=ingredients[i].price%></span></td>
+              </tr>
+            <% } %>
+              <tr>
+                <td><button type="button" class="dishDetailsConfirmDishButton" data-id="<%=id%>">Confirm Dish</button></td>
+                <td></td>
+                <td>SEK</td>
+                <td class="dishDetailsTotalPrice"></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="welcomeScreenTmpl">
+    <div class="content-full">
+      <div class="intro">
+        <div class="introHeader">
+          A Home Dinner Service
+        </div>
+        <hr>
+        <div class="introText">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+        <hr>
+        <div class="introAction">
+          Start quickly <button type="button" class="joinButton">Create new dinner</button>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="dinnerOverviewViewTmpl">
+    <div class="content-full">
+      <div class="dinnerOverviewHeader">
+        <div class="dinnerOverviewHeaderText">
+          My dinner: <span class="overviewNumberOfGuests"></span> people
+        </div>
+        <div class="dinnerOverviewHeaderAction">
+          <button type="button" class="goBackButton">Go back and edit dinner</button>
+        </div>
+      </div>
+
+      <div class="dinnerOverview">
+        <div class="dinnerOverviewList">
+          <% for (var i = 0; i < dishes.length; i++) { %>
+          <div class="dishListViewElement">
+            <div class="dishListViewElementImg"><img src="images/<%=dishes[i].image%>"/></div>
+            <div class="dishListViewElementText"><%=dishes[i].name%></div>
+            <span class="dishListViewElementPrice" data-id="<%=dishes[i].id%>"></span> SEK
+          </div>
+          <% } %>
+          <div class="dinnerTotalPrice">Total: <span class="dinnerTotalPriceSpan"></span> SEK</div>
+        </div>
+        <hr>
+        <button type="button" class="fullButton">Print Full Recipe</button>
+      </div>
+
+      <div class="dinnerOverviewFull" style="display: none">
+        <table>
+        <tbody>
+          <tr>
+          <th>Dinner</th>
+          <th>Name</th>
+          <th>Preparation</th>
+          </tr>
+          <% for (var i = 0; i < dishes.length; i++) { %>
+          <tr>
+            <td><img src="images/<%=dishes[i].image%>"/></td>
+            <td width="30%"><%=dishes[i].name%></td>
+            <td width="50%"><%=dishes[i].description%></td>
+          </tr>
+          <% } %>
+        </tbody>
+        </table>
+    </div>
+  </script>
+
+  </body>
+</html>

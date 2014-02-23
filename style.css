@@ -1,0 +1,243 @@
+/*
+ * Main Layout
+ */
+*,*:after,*:before {
+  box-sizing: border-box
+}
+
+.topbar {
+  position: fixed;
+  height: 61px;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+  border-bottom: 2px solid #333;
+  padding: 8px 0 0 10px;
+}
+
+.logo {
+  margin: 0; padding: 0;
+  float: left;
+}
+.logo-intro {
+  float: left;
+  padding-top: 14px;
+  padding-left: 10px;
+  font-style: italic;
+}
+
+.sidebar {
+  top: 61px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+  border-right: 2px solid #333;
+  width: 200px;
+}
+
+.content {
+  margin: 61px 0 0 200px;
+  min-width: 780px;
+}
+.content-full {
+  margin: 61px 0 0 0;
+  width: 100%;
+}
+
+/*
+ * Dish List
+ */
+
+.dishListControl {
+  background: #ffcccc;
+  border-bottom: 2px solid #333;
+  padding: 10px 40px;
+  height: 110px;
+}
+
+.dishListControl hr {
+  border-top: 1px solid #000;
+  margin: 10px 0 12px;
+}
+
+.dishListControlText {
+  font-size: 18px;
+}
+
+#dishListSearchForm {
+  float: left;
+}
+
+#dishListTypeForm {
+  float: left;
+  margin-left: 40px;
+}
+
+#dishListView {
+  padding: 20px 40px;
+}
+
+.dishListViewElement {
+  border: 2px solid #333;
+  width: 150px;
+  height: 240px;
+  float: left;
+  margin: 0 40px 40px 0;
+}
+.dishListViewElementImg {
+}
+.dishListViewElementImg img {
+  height: 142px;
+  width: 142px;
+  margin: 2px;
+}
+.dishListViewElementText {
+  background: #eee;
+  font-size: 16px;
+  text-align: center;
+  border-top: 2px solid #333;
+  border-bottom: 2px solid #333;
+  padding: 2px;
+}
+.dishListViewElementText p {
+  margin: 0;
+}
+.dishListViewElementDescription {
+  font-size: 12px;
+  padding: 4px;
+  max-height: 58px;
+  overflow: hidden;
+}
+
+/*
+ * Side bar
+ */
+
+#selectedDishesHeader {
+  background: #eee;
+  border-top: 2px solid #333;
+  border-bottom: 2px solid #333;
+  margin-top: 20px;
+  margin-bottom: 3px;
+  font-weight: bold;
+}
+.selectedDishCostSpan {
+  float: right;
+}
+.selectedDishElement {
+  overflow: hidden;
+  clear: both;
+  margin-bottom: 10px;
+}
+.selectedDishElementName {
+  font-weight: bold;
+}
+.selectedDishElement.pending {
+  margin: 5px 0;
+  border: 2px solid #333;
+}
+#selectedDishesFinalPrice {
+  float: right;
+}
+.dishRemoveButton {
+  float: right;
+}
+.selectedDishElementPrice {
+  float: right
+}
+.selectionHeader {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+#selectedDishesHeader, .selectedDishFooter, .selectedDishElement, .selectionPeople, .selectionHeader {
+  padding: 5px 10px;
+}
+#sidebarPlusButton, #sidebarMinusButton {
+  float: right;
+}
+.confirmDinnerButton {
+  display: block;
+  margin: 40px auto;
+}
+
+
+/*
+ * Dish details view
+ */
+.dishDetails {
+  float: left;
+  padding: 10px 20px;
+  width: 400px;
+}
+.dishDetailsHeader {
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.dishDetailsIngredients {
+  border-left: 2px solid #333;
+  border-bottom: 2px solid #333;
+  padding: 10px;
+  float: right;
+}
+.dishDetailsIngredientsHeader {
+  font-size: 16px;
+  font-weight: bold;
+}
+.dishDetailsBackButton {
+  margin-top: 20px;
+}
+th, td  {
+  padding: 5px 3px;
+}
+
+/*
+ * Welcome screen
+ */
+.intro {
+  margin: 150px 0 0 20px;
+  width: 500px;
+}
+.introHeader {
+  font-size: 18px;
+  font-weight: bold;
+}
+.introAction {
+  margin-top: 10px;
+}
+
+/*
+ * Dinner overview
+ */
+.dinnerOverview, .dinnerOverviewFull {
+  margin: 40px;
+  padding: 40px;
+}
+.dinnerTotalPrice {
+  float: left;
+  border-left: 2px solid #333;
+  padding-left: 10px;
+  margin-left: 10px;
+  height: 240px;
+}
+.dinnerOverviewList {
+  clear: both;
+  overflow: hidden;
+}
+.dinnerOverviewHeader {
+  height: 80px;
+  background: #ffcccc;
+  border-bottom: 2px solid #333;
+  padding: 10px 20px;
+}
+.dinnerOverviewHeaderText {
+  float: left;
+  font-size: 40px;
+  font-weight: bold;
+}
+.dinnerOverviewHeaderAction {
+  float: right;
+}
