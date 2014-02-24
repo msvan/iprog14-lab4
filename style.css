@@ -198,8 +198,10 @@ th, td  {
  * Welcome screen
  */
 .intro {
-  margin: 150px 0 0 20px;
+  margin: 120px 0 0 20px;
   width: 500px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.7);
 }
 .introHeader {
   font-size: 18px;
@@ -207,6 +209,16 @@ th, td  {
 }
 .introAction {
   margin-top: 10px;
+}
+
+.introBackground{
+  margin: -150px 0 0 0;
+  width: 100%;
+  min-height: 900px;
+  background-image: url('images/background.jpg');
+  position: absolute;
+  z-index: -1;
+
 }
 
 /*
